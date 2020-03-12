@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 
 const ContactForm = () => {
@@ -6,8 +7,11 @@ const ContactForm = () => {
   const { register, errors, handleSubmit, reset } = useForm({
     mode: "onBlur"
   });
-  const onSubmit = data => {
-    setData(data);
+  const onSubmit = values => {
+    axios
+      .post("https://reqres.in/api/users/42", values)
+      .then(({ data }) => setData(data))
+      .catch(() => setData(values));
   };
 
   return (
