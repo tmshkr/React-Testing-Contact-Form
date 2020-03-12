@@ -39,15 +39,26 @@ test("ContactForm submits values", async () => {
   await findByText(/"message": "hello"/);
 });
 
-test("ContactForm submits values", async () => {
+test("ContactForm displays required error messages", async () => {
   const { getByTestId, findAllByTestId } = render(<ContactForm />);
 
-  const submitButton = getByTestId("submit");
-  fireEvent.click(submitButton);
+  fireEvent.click(getByTestId("submit"));
 
   await findAllByTestId("error").then(els => {
     if (els.length !== 3) {
       throw new Error("there should be 3 error messages");
     }
   });
+});
+
+test("ContactForm displays maxLength error message", async () => {
+  const { getByLabelText, getByTestId, findByText } = render(<ContactForm />);
+
+  fireEvent.change(getByLabelText(/first name/i), {
+    target: { name: "firstName", value: "billy" }
+  });
+
+  fireEvent.click(getByTestId("submit"));
+
+  await findByText(/maxLength/);
 });
