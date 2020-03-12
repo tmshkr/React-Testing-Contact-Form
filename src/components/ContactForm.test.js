@@ -62,3 +62,15 @@ test("ContactForm displays maxLength error message", async () => {
 
   await findByText(/maxLength/);
 });
+
+test("ContactForm displays 'invalid email address' error message", async () => {
+  const { getByLabelText, getByTestId, findByText } = render(<ContactForm />);
+
+  fireEvent.change(getByLabelText(/email/i), {
+    target: { name: "email", value: "foo@bar" }
+  });
+
+  fireEvent.click(getByTestId("submit"));
+
+  await findByText(/invalid email address/);
+});

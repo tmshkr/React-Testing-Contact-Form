@@ -47,10 +47,20 @@ const ContactForm = () => {
           <label htmlFor="email" placeholder="bluebill1049@hotmail.com">
             Email*
           </label>
-          <input id="email" name="email" ref={register({ required: true })} />
+          <input
+            id="email"
+            name="email"
+            ref={register({
+              required: "required",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                message: "invalid email address"
+              }
+            })}
+          />
           {errors.email && (
             <p data-testid="error">
-              Looks like there was an error: {errors.email.type}
+              Looks like there was an error: {errors.email.message}
             </p>
           )}
         </div>
