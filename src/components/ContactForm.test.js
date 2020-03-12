@@ -33,8 +33,21 @@ test("ContactForm submits values", async () => {
   fireEvent.click(submitButton);
 
   // assertion
-  await findByText(/"firstName": "Joe"/i);
-  await findByText(/"lastName": "Smith"/i);
-  await findByText(/"email": "joe@example.com"/i);
-  await findByText(/"message": "hello"/i);
+  await findByText(/"firstName": "Joe"/);
+  await findByText(/"lastName": "Smith"/);
+  await findByText(/"email": "joe@example.com"/);
+  await findByText(/"message": "hello"/);
+});
+
+test("ContactForm submits values", async () => {
+  const { getByTestId, findAllByTestId } = render(<ContactForm />);
+
+  const submitButton = getByTestId("submit");
+  fireEvent.click(submitButton);
+
+  await findAllByTestId("error").then(els => {
+    if (els.length !== 3) {
+      throw new Error("there should be 3 error messages");
+    }
+  });
 });
